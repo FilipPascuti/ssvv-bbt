@@ -5,7 +5,7 @@ import org.junit.Test;
 public class ServiceTest {
 
     @Test
-    void TestAddStudent() {
+    public void TestAddStudent() {
         assert true;
     }
 }
