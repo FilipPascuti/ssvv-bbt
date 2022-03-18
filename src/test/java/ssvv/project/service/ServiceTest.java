@@ -6,6 +6,6 @@ public class ServiceTest {
 
     @Test
     public void TestAddStudent() {
-        assert true;
+        assert false;
     }
 }
