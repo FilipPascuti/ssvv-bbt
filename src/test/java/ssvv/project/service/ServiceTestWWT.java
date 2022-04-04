@@ -45,9 +45,9 @@ public class ServiceTestWWT {
     @After
     public void tearDown() {
         try {
-            String defaultFileContent = new String(Files.readAllBytes(Paths.get("src/test/java/resourses/studenti_default.xml")), StandardCharsets.UTF_8);
+            String defaultFileContent = new String(Files.readAllBytes(Paths.get("src/test/java/resourses/teme_default.xml")), StandardCharsets.UTF_8);
 
-            PrintWriter printWriter = new PrintWriter("src/test/java/resourses/studenti.xml");
+            PrintWriter printWriter = new PrintWriter("src/test/java/resourses/teme.xml");
 
             printWriter.print(defaultFileContent);
             printWriter.close();
@@ -61,13 +61,6 @@ public class ServiceTestWWT {
         assert true;
     }
 
-    @Test
-    public void TC1_BBT_EC() {
-        service.findAllStudents().forEach(System.out::println);
-        var result = service.saveStudent("0", "Dorel", 111);
-        service.findAllStudents().forEach(System.out::println);
-        Assert.assertEquals(result, 1);
-    }
 
     @Test
     public void TC_WWT_1() {
@@ -78,5 +71,21 @@ public class ServiceTestWWT {
     public void TC_WWT_2() {
         Assert.assertEquals(service.saveTema("0", null, 5, 3), 1);
     }
+
+    @Test
+    public void TC_WWT_3() {
+        Assert.assertEquals(service.saveTema("0", "asdf", 0, 3), 1);
+    }
+
+    @Test
+    public void TC_WWT_4() {
+        Assert.assertEquals(service.saveTema("0", "asdf", 5, 15), 1);
+    }
+
+    @Test
+    public void TC_WWT_5() {
+        Assert.assertEquals(service.saveTema("0", "asdf", 5, 3), 0);
+    }
+
 
 }

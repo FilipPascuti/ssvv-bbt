@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Entitati>
-
+    <student ID="0">
+        <Nume>Dorel</Nume>
+        <Grupa>111</Grupa>
+    </student>
 </Entitati>
