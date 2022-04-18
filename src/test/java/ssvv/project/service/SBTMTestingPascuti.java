@@ -20,8 +20,9 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.IntStream;
 
-public class IntergrationTesting {
+public class SBTMTestingPascuti {
 
     private StudentXMLRepository studentXMLRepository;
     private NotaXMLRepository notaXMLRepository;
@@ -73,29 +74,56 @@ public class IntergrationTesting {
     }
 
     @Test
-    public void testSaveStudent() {
-        Assert.assertEquals(service.saveStudent(null, "Dorel", 937), 0);
+    public void testWithoutStudent() {
+
+        Assert.assertEquals(service.saveNota("0", "0", 7, 7, "mere"), -1);
     }
 
     @Test
-    public void testSaveTema() {
-        Assert.assertEquals(service.saveTema(null, "asdf", 5, 3), 1);
+    public void testWithValidInput() {
+
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 7, "mere"), 1);
     }
 
     @Test
-    public void testSaveGrade() {
+    public void testWithSubmitEarly() {
 
-        service.saveStudent("0", "Dorel", 937);
-        service.saveTema("0", "asdf", 5, 3);
-        Assert.assertEquals(service.saveNota("0", "0", 5, 3, "ok ce sa zic"), 1);
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 4, "mere"), 1);
     }
 
     @Test
-    public void testAllFunctionalities() {
+    public void testFeedbackEmpty() {
 
-        Assert.assertEquals(service.saveStudent("0", "Dorel", 937), 1);
-        Assert.assertEquals(service.saveTema("0", "asdf", 5, 3), 0);
-        Assert.assertEquals(service.saveNota("0", "0", 5, 3, "ok ce sa zic"), 1);
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 8, ""), 1);
     }
 
+    @Test
+    public void testAddGradeTwice() {
+
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 8, ""), 1);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 8, ""), 0);
+    }
+
+    @Test
+    public void testWithSubmitLate() {
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 20, ""), 1);
+        service.findAllNote().forEach(System.out::println);
+    }
+
+    @Test
+    public void testWithSuperLongFeedBackString() {
+        service.saveStudent("0", "dorel", 933);
+        service.saveTema("0", "tema1", 8, 5);
+        Assert.assertEquals(service.saveNota("0", "0", 7, 8, "a".repeat(100000)), 1);
+    }
 }
